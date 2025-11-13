@@ -11,35 +11,39 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define BASE_SIZE 8          // Back to 8 for visibility
-#define CENTER_X 50          // Center of 100px width
-#define CENTER_Y 20          // Center of 40px height
+#define BASE_SIZE 8
+#define CENTER_X 50
+#define CENTER_Y 20
 #define FRAME_COUNT 32
 #define ANIMATION_DURATION 2000
-#define PERSPECTIVE_DISTANCE 800  // Reduced for smaller display
+#define PERSPECTIVE_DISTANCE 800
+#define MAX_EDGE_SET 256
+
+#define DEBUG_CULLING 1  // Set to 1 to debug face culling
 
 static lv_obj_t *canvas;
 static lv_color_t *canvas_buf;
 static lv_timer_t *animation_timer;
 static int current_frame = 0;
-static lv_obj_t *label_name;  // Label for shape name
+static lv_obj_t *label_name;
 
-// Animation state
 static float z_position = 0.0f;
 static float x_offset = 0.0f;
 static float x_direction = 1.0f;
 static int direction_change_counter = 0;
 
-// Rotation axes (0=X, 1=Y, 2=Z)
 static int rotation_axes[3] = {1, 0, 0};
 static int axis_change_counter = 0;
 
-// Current and next pentacubes
 static int current_pentacube = 0;
 static int next_pentacube = 1;
 static float morphing_progress = 0.0f;
 static bool is_morphing = false;
 static int last_logged_pentacube = -1;
+
+typedef struct {
+    int v1, v2;
+} edge_t;
 
 static int simple_rand(void)
 {
@@ -73,27 +77,60 @@ static void rotate_point(float *x, float *y, float *z, float angle_x, float angl
     float cos_z = cosf(angle_z);
     float sin_z = sinf(angle_z);
     
-    // Rotate around X
     float temp_y = *y * cos_x - *z * sin_x;
     float temp_z = *y * sin_x + *z * cos_x;
     *y = temp_y;
     *z = temp_z;
     
-    // Rotate around Y
     float temp_x = *x * cos_y + *z * sin_y;
     *z = -*x * sin_y + *z * cos_y;
     *x = temp_x;
     
-    // Rotate around Z
     temp_x = *x * cos_z - *y * sin_z;
     temp_y = *x * sin_z + *y * cos_z;
     *x = temp_x;
     *y = temp_y;
 }
 
+// Check if face is visible using winding order (CCW in screen space = front-facing)
+// Returns cross product Z value for debugging
+static int is_face_visible_debug(int screen_x0, int screen_y0, int screen_x1, int screen_y1, int screen_x2, int screen_y2, int *cross_out)
+{
+    int edge1_x = screen_x1 - screen_x0;
+    int edge1_y = screen_y1 - screen_y0;
+    int edge2_x = screen_x2 - screen_x0;
+    int edge2_y = screen_y2 - screen_y0;
+    
+    int cross = edge1_x * edge2_y - edge1_y * edge2_x;
+    *cross_out = cross;
+    
+    return cross > 0;
+}
+
+static bool add_edge_to_set(edge_t *edge_set, int *edge_count, int v1, int v2)
+{
+    if (*edge_count >= MAX_EDGE_SET) return false;
+    
+    if (v1 > v2) {
+        int temp = v1;
+        v1 = v2;
+        v2 = temp;
+    }
+    
+    for (int i = 0; i < *edge_count; i++) {
+        if (edge_set[i].v1 == v1 && edge_set[i].v2 == v2) {
+            return true;
+        }
+    }
+    
+    edge_set[*edge_count].v1 = v1;
+    edge_set[*edge_count].v2 = v2;
+    (*edge_count)++;
+    return true;
+}
+
 static void update_animation_state(void)
 {
-    // Update X offset (side-to-side movement) - reduced range for small display
     direction_change_counter++;
     if (direction_change_counter > 8) {
         if (simple_rand() % 3 == 0) {
@@ -102,9 +139,9 @@ static void update_animation_state(void)
         direction_change_counter = 0;
     }
     
-    x_offset += x_direction * 0.6f;  // Slower movement
+    x_offset += x_direction * 0.6f;
     
-    if (x_offset > 15.0f) {  // Reduced range
+    if (x_offset > 15.0f) {
         x_offset = 15.0f;
         x_direction = -1.0f;
     } else if (x_offset < -15.0f) {
@@ -112,12 +149,10 @@ static void update_animation_state(void)
         x_direction = 1.0f;
     }
     
-    // Calculate Z position based on distance from center
     float norm_x = fabsf(x_offset) / 15.0f;
     float distance_from_center = norm_x * norm_x;
-    z_position = distance_from_center * 200.0f;  // Reduced Z movement
+    z_position = distance_from_center * 200.0f;
     
-    // Update morphing progress
     if (z_position > 180.0f && !is_morphing) {
         is_morphing = true;
         morphing_progress = 0.0f;
@@ -134,7 +169,6 @@ static void update_animation_state(void)
         }
     }
     
-    // Randomly change rotation axes
     axis_change_counter++;
     if (axis_change_counter > 16) {
         rotation_axes[0] = simple_rand() % 2;
@@ -146,70 +180,115 @@ static void update_animation_state(void)
 
 static void draw_pentacube_frame(void)
 {
-    // Clear canvas to WHITE
     lv_canvas_fill_bg(canvas, lv_color_white(), LV_OPA_COVER);
     
     update_animation_state();
     
-    // Calculate rotation angles
     float angle = (float)current_frame * 2.0f * M_PI / FRAME_COUNT;
     float angle_x = angle * rotation_axes[0];
     float angle_y = angle * rotation_axes[1];
     float angle_z = angle * rotation_axes[2];
     
-    // Get current pentacube data
     const pentacube_data_t *pentacube = &pentacube_data[current_pentacube];
     
-    // Update label with shape name
     lv_label_set_text(label_name, pentacube->name);
     
-    // Calculate opacity for morphing
     lv_opa_t opacity = (lv_opa_t)(LV_OPA_COVER * morphing_progress);
     
-    // Cast vertices pointer correctly as array of 3-float arrays
     const float (*verts)[3] = (const float (*)[3])pentacube->vertices;
     
-    int lines_drawn = 0;
+    float *rotated_verts = lv_mem_alloc(pentacube->vertex_count * 3 * sizeof(float));
+    int *screen_coords = lv_mem_alloc(pentacube->vertex_count * 2 * sizeof(int));
     
-    // Draw all edges directly
-    for (int edge_idx = 0; edge_idx < pentacube->edge_count; edge_idx++) {
-        int v1_idx = pentacube->edges[edge_idx * 2];
-        int v2_idx = pentacube->edges[edge_idx * 2 + 1];
+    for (int i = 0; i < pentacube->vertex_count; i++) {
+        float vx = verts[i][0] - 1.5f;
+        float vy = verts[i][1] - 1.5f;
+        float vz = verts[i][2] - 1.5f;
         
-        // Bounds check to prevent crashes
-        if (v1_idx >= pentacube->vertex_count || v2_idx >= pentacube->vertex_count) {
-            printf("ERROR: Invalid vertex index! edge=%d v1=%d v2=%d max=%d shape=%s\n",
-                   edge_idx, v1_idx, v2_idx, pentacube->vertex_count, pentacube->name);
-            continue;
+        rotate_point(&vx, &vy, &vz, angle_x, angle_y, angle_z);
+        
+        rotated_verts[i * 3 + 0] = vx;
+        rotated_verts[i * 3 + 1] = vy;
+        rotated_verts[i * 3 + 2] = vz;
+        
+        int sx, sy;
+        project_point(vx, vy, vz, &sx, &sy);
+        screen_coords[i * 2 + 0] = sx;
+        screen_coords[i * 2 + 1] = sy;
+    }
+    
+    const float (*rotated_verts_2d)[3] = (const float (*)[3])rotated_verts;
+    
+    edge_t *visible_edges = lv_mem_alloc(MAX_EDGE_SET * sizeof(edge_t));
+    int visible_edge_count = 0;
+    
+    int face_vert_idx = 0;
+    int visible_faces = 0;
+    int total_faces_checked = 0;
+    
+    #if DEBUG_CULLING
+    static int debug_frame_count = 0;
+    bool should_debug = (debug_frame_count++ % 32 == 0) && morphing_progress > 0.9f;
+    if (should_debug) {
+        printf("\n=== DEBUGGING %s ===\n", pentacube->name);
+        printf("Face culling results:\n");
+    }
+    #endif
+    
+    for (int face_idx = 0; face_idx < pentacube->face_count; face_idx++) {
+        int face_vert_count = pentacube->face_vertex_counts[face_idx];
+        
+        int v0_idx = pentacube->face_vertices[face_vert_idx];
+        int v1_idx = pentacube->face_vertices[face_vert_idx + 1];
+        int v2_idx = pentacube->face_vertices[face_vert_idx + 2];
+        
+        int sx0 = screen_coords[v0_idx * 2];
+        int sy0 = screen_coords[v0_idx * 2 + 1];
+        int sx1 = screen_coords[v1_idx * 2];
+        int sy1 = screen_coords[v1_idx * 2 + 1];
+        int sx2 = screen_coords[v2_idx * 2];
+        int sy2 = screen_coords[v2_idx * 2 + 1];
+        
+        int cross = 0;
+        bool visible = is_face_visible_debug(sx0, sy0, sx1, sy1, sx2, sy2, &cross);
+        
+        #if DEBUG_CULLING
+        if (should_debug) {
+            printf("  Face %d: %d verts, cross=%d, visible=%s (v0=%d v1=%d v2=%d)\n",
+                   face_idx, face_vert_count, cross, visible ? "YES" : "NO", v0_idx, v1_idx, v2_idx);
+        }
+        #endif
+        
+        total_faces_checked++;
+        
+        if (visible) {
+            visible_faces++;
+            for (int i = 0; i < face_vert_count; i++) {
+                int va = pentacube->face_vertices[face_vert_idx + i];
+                int vb = pentacube->face_vertices[face_vert_idx + (i + 1) % face_vert_count];
+                add_edge_to_set(visible_edges, &visible_edge_count, va, vb);
+            }
         }
         
-        // Get vertex coordinates - access as 2D array
-        float v1_x = verts[v1_idx][0];
-        float v1_y = verts[v1_idx][1];
-        float v1_z = verts[v1_idx][2];
+        face_vert_idx += face_vert_count;
+    }
+    
+    #if DEBUG_CULLING
+    if (should_debug) {
+        printf("Result: %d/%d faces visible, %d unique edges\n\n", visible_faces, total_faces_checked, visible_edge_count);
+    }
+    #endif
+    
+    int lines_drawn = 0;
+    for (int i = 0; i < visible_edge_count; i++) {
+        int v1_idx = visible_edges[i].v1;
+        int v2_idx = visible_edges[i].v2;
         
-        float v2_x = verts[v2_idx][0];
-        float v2_y = verts[v2_idx][1];
-        float v2_z = verts[v2_idx][2];
+        int x1 = screen_coords[v1_idx * 2];
+        int y1 = screen_coords[v1_idx * 2 + 1];
+        int x2 = screen_coords[v2_idx * 2];
+        int y2 = screen_coords[v2_idx * 2 + 1];
         
-        // Center the pentacube
-        v1_x -= 1.5f;
-        v1_y -= 1.5f;
-        v1_z -= 1.5f;
-        v2_x -= 1.5f;
-        v2_y -= 1.5f;
-        v2_z -= 1.5f;
-        
-        // Rotate vertices
-        rotate_point(&v1_x, &v1_y, &v1_z, angle_x, angle_y, angle_z);
-        rotate_point(&v2_x, &v2_y, &v2_z, angle_x, angle_y, angle_z);
-        
-        // Project to screen
-        int x1, y1, x2, y2;
-        project_point(v1_x, v1_y, v1_z, &x1, &y1);
-        project_point(v2_x, v2_y, v2_z, &x2, &y2);
-        
-        // Draw the edge
         lv_draw_line_dsc_t line_dsc;
         lv_draw_line_dsc_init(&line_dsc);
         line_dsc.color = lv_color_black();
@@ -221,12 +300,17 @@ static void draw_pentacube_frame(void)
         lines_drawn++;
     }
     
-    // Log when a new pentacube is displayed (only once per shape change)
+    lv_mem_free(rotated_verts);
+    lv_mem_free(screen_coords);
+    lv_mem_free(visible_edges);
+    
     if (morphing_progress > 0.9f && current_pentacube != last_logged_pentacube) {
-        printf("PENTACUBE: %-8s | Edges: %2d | Drawn: %2d\n", 
+        printf("PENTACUBE: %-8s | Edges: %2d | Drawn: %3d | Faces: %d/%d visible\n", 
                pentacube->name, 
                pentacube->edge_count, 
-               lines_drawn);
+               lines_drawn,
+               visible_faces,
+               total_faces_checked);
         last_logged_pentacube = current_pentacube;
     }
 }
@@ -238,7 +322,6 @@ static void animation_timer_cb(lv_timer_t *timer)
     current_frame = (current_frame + 1) % FRAME_COUNT;
 }
 
-// Calculate center of mass for pentacube
 static float get_pentacube_center_x(int pentacube_idx)
 {
     const pentacube_data_t *p = &pentacube_data[pentacube_idx];
@@ -264,20 +347,19 @@ void example_lvgl_demo_ui(lv_disp_t *disp)
     
     lv_obj_align(canvas, LV_ALIGN_CENTER, 0, 0);
     
-    // Create label for shape name (top-left corner)
     label_name = lv_label_create(scr);
     lv_label_set_text(label_name, "");
     lv_obj_set_style_text_color(label_name, lv_color_black(), 0);
-    lv_obj_set_style_text_font(label_name, &lv_font_montserrat_14, 0);
+    #ifdef LV_FONT_MONTSERRAT_14
+        lv_obj_set_style_text_font(label_name, &lv_font_montserrat_14, 0);
+    #endif
     lv_obj_align(label_name, LV_ALIGN_TOP_LEFT, 1, 0);
     
     animation_timer = lv_timer_create(animation_timer_cb, ANIMATION_DURATION / FRAME_COUNT, NULL);
     
-    // Randomize initial pentacube
     current_pentacube = random_pentacube();
     next_pentacube = random_pentacube();
     
-    // Center the initial pentacube
     x_offset = -get_pentacube_center_x(current_pentacube) * BASE_SIZE;
     
     printf("\n=== PENTACUBE WIREFRAME (100x40) ===\n");

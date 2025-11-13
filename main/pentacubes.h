@@ -9,6 +9,7 @@ typedef struct {
     const int *edges;            // Pointer to edge array (vertex index pairs)
     int edge_count;              // Number of edges (total ints / 2)
     const int *face_vertices;    // Pointer to face vertex indices
+    const int *face_vertex_counts; // Pointer to array of vertex counts per face
     int face_count;              // Number of faces
     const char *name;            // Name of the pentacube
 } pentacube_data_t;

@@ -1,4 +1,5 @@
 // Auto-generated pentacube data from Blender export
+// DO NOT EDIT - regenerate from run_in_blender.py
 #include "pentacubes.h"
 
 static const float vertices_A[][3] = {
@@ -1208,6 +1209,410 @@ static const int face_vertices_Z[] = {
     5, 1, 4, 7, 13, 15, 11, 9,
 };
 
+static const int face_vertex_counts_A[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    10,
+    10,
+};
+
+static const int face_vertex_counts_B[] = {
+    4,
+    4,
+    4,
+    5,
+    6,
+    8,
+    4,
+    4,
+    4,
+    4,
+    5,
+    4,
+};
+
+static const int face_vertex_counts_E[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    7,
+    6,
+};
+
+static const int face_vertex_counts_E_p[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    7,
+    6,
+};
+
+static const int face_vertex_counts_F[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    10,
+    4,
+    4,
+    4,
+    4,
+    4,
+    10,
+};
+
+static const int face_vertex_counts_G[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    4,
+    5,
+    7,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_G_p[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    4,
+    5,
+    7,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_H[] = {
+    4,
+    5,
+    4,
+    4,
+    4,
+    8,
+    7,
+    4,
+    4,
+    4,
+    6,
+    4,
+};
+
+static const int face_vertex_counts_H_p[] = {
+    4,
+    5,
+    4,
+    4,
+    4,
+    8,
+    7,
+    4,
+    4,
+    4,
+    6,
+    4,
+};
+
+static const int face_vertex_counts_I[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+};
+
+static const int face_vertex_counts_J[] = {
+    4,
+    4,
+    4,
+    6,
+    4,
+    4,
+    5,
+    6,
+    4,
+    5,
+};
+
+static const int face_vertex_counts_J_p[] = {
+    4,
+    4,
+    4,
+    6,
+    4,
+    4,
+    5,
+    6,
+    4,
+    5,
+};
+
+static const int face_vertex_counts_K[] = {
+    6,
+    4,
+    6,
+    4,
+    4,
+    4,
+    8,
+    10,
+    4,
+    4,
+    4,
+    10,
+};
+
+static const int face_vertex_counts_L[] = {
+    4,
+    4,
+    4,
+    6,
+    4,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_M[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    10,
+    4,
+    4,
+    4,
+    4,
+    10,
+};
+
+static const int face_vertex_counts_N[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    4,
+    4,
+    4,
+    8,
+};
+
+static const int face_vertex_counts_P[] = {
+    4,
+    4,
+    4,
+    6,
+    4,
+    4,
+    6,
+    4,
+};
+
+static const int face_vertex_counts_Q[] = {
+    4,
+    4,
+    4,
+    6,
+    6,
+    4,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_R[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    4,
+    4,
+    8,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_R_p[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    5,
+    5,
+    4,
+    4,
+    8,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_S[] = {
+    4,
+    6,
+    4,
+    4,
+    6,
+    6,
+    4,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_S_p[] = {
+    4,
+    6,
+    4,
+    4,
+    6,
+    6,
+    4,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_T[] = {
+    4,
+    8,
+    12,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    12,
+};
+
+static const int face_vertex_counts_U[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    4,
+    4,
+    4,
+    8,
+};
+
+static const int face_vertex_counts_V[] = {
+    4,
+    4,
+    6,
+    4,
+    4,
+    4,
+    4,
+    6,
+};
+
+static const int face_vertex_counts_W[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    10,
+    4,
+    10,
+};
+
+static const int face_vertex_counts_X[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    12,
+    4,
+    4,
+    4,
+    12,
+};
+
+static const int face_vertex_counts_Y[] = {
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+    4,
+    4,
+    8,
+};
+
+static const int face_vertex_counts_Z[] = {
+    4,
+    4,
+    4,
+    8,
+    4,
+    4,
+    4,
+    4,
+    4,
+    8,
+};
+
 const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
     {
         .vertices = (const float *)vertices_A,
@@ -1215,6 +1620,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_A,
         .edge_count = 30,
         .face_vertices = face_vertices_A,
+        .face_vertex_counts = face_vertex_counts_A,
         .face_count = 12,
         .name = "A"
     },
@@ -1224,6 +1630,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_B,
         .edge_count = 28,
         .face_vertices = face_vertices_B,
+        .face_vertex_counts = face_vertex_counts_B,
         .face_count = 12,
         .name = "B"
     },
@@ -1233,6 +1640,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_E,
         .edge_count = 29,
         .face_vertices = face_vertices_E,
+        .face_vertex_counts = face_vertex_counts_E,
         .face_count = 11,
         .name = "E"
     },
@@ -1242,6 +1650,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_E_p,
         .edge_count = 29,
         .face_vertices = face_vertices_E_p,
+        .face_vertex_counts = face_vertex_counts_E_p,
         .face_count = 11,
         .name = "E'"
     },
@@ -1251,6 +1660,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_F,
         .edge_count = 30,
         .face_vertices = face_vertices_F,
+        .face_vertex_counts = face_vertex_counts_F,
         .face_count = 12,
         .name = "F"
     },
@@ -1260,6 +1670,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_G,
         .edge_count = 29,
         .face_vertices = face_vertices_G,
+        .face_vertex_counts = face_vertex_counts_G,
         .face_count = 12,
         .name = "G"
     },
@@ -1269,6 +1680,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_G_p,
         .edge_count = 29,
         .face_vertices = face_vertices_G_p,
+        .face_vertex_counts = face_vertex_counts_G_p,
         .face_count = 12,
         .name = "G'"
     },
@@ -1278,6 +1690,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_H,
         .edge_count = 29,
         .face_vertices = face_vertices_H,
+        .face_vertex_counts = face_vertex_counts_H,
         .face_count = 12,
         .name = "H"
     },
@@ -1287,6 +1700,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_H_p,
         .edge_count = 29,
         .face_vertices = face_vertices_H_p,
+        .face_vertex_counts = face_vertex_counts_H_p,
         .face_count = 12,
         .name = "H'"
     },
@@ -1296,6 +1710,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_I,
         .edge_count = 12,
         .face_vertices = face_vertices_I,
+        .face_vertex_counts = face_vertex_counts_I,
         .face_count = 6,
         .name = "I"
     },
@@ -1305,6 +1720,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_J,
         .edge_count = 23,
         .face_vertices = face_vertices_J,
+        .face_vertex_counts = face_vertex_counts_J,
         .face_count = 10,
         .name = "J"
     },
@@ -1314,6 +1730,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_J_p,
         .edge_count = 23,
         .face_vertices = face_vertices_J_p,
+        .face_vertex_counts = face_vertex_counts_J_p,
         .face_count = 10,
         .name = "J'"
     },
@@ -1323,6 +1740,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_K,
         .edge_count = 34,
         .face_vertices = face_vertices_K,
+        .face_vertex_counts = face_vertex_counts_K,
         .face_count = 12,
         .name = "K"
     },
@@ -1332,6 +1750,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_L,
         .edge_count = 18,
         .face_vertices = face_vertices_L,
+        .face_vertex_counts = face_vertex_counts_L,
         .face_count = 8,
         .name = "L"
     },
@@ -1341,6 +1760,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_M,
         .edge_count = 38,
         .face_vertices = face_vertices_M,
+        .face_vertex_counts = face_vertex_counts_M,
         .face_count = 16,
         .name = "M"
     },
@@ -1350,6 +1770,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_N,
         .edge_count = 24,
         .face_vertices = face_vertices_N,
+        .face_vertex_counts = face_vertex_counts_N,
         .face_count = 10,
         .name = "N"
     },
@@ -1359,6 +1780,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_P,
         .edge_count = 18,
         .face_vertices = face_vertices_P,
+        .face_vertex_counts = face_vertex_counts_P,
         .face_count = 8,
         .name = "P"
     },
@@ -1368,6 +1790,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_Q,
         .edge_count = 21,
         .face_vertices = face_vertices_Q,
+        .face_vertex_counts = face_vertex_counts_Q,
         .face_count = 9,
         .name = "Q"
     },
@@ -1377,6 +1800,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_R,
         .edge_count = 32,
         .face_vertices = face_vertices_R,
+        .face_vertex_counts = face_vertex_counts_R,
         .face_count = 14,
         .name = "R"
     },
@@ -1386,6 +1810,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_R_p,
         .edge_count = 32,
         .face_vertices = face_vertices_R_p,
+        .face_vertex_counts = face_vertex_counts_R_p,
         .face_count = 14,
         .name = "R'"
     },
@@ -1395,6 +1820,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_S,
         .edge_count = 24,
         .face_vertices = face_vertices_S,
+        .face_vertex_counts = face_vertex_counts_S,
         .face_count = 10,
         .name = "S"
     },
@@ -1404,6 +1830,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_S_p,
         .edge_count = 24,
         .face_vertices = face_vertices_S_p,
+        .face_vertex_counts = face_vertex_counts_S_p,
         .face_count = 10,
         .name = "S'"
     },
@@ -1413,6 +1840,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_T,
         .edge_count = 32,
         .face_vertices = face_vertices_T,
+        .face_vertex_counts = face_vertex_counts_T,
         .face_count = 10,
         .name = "T"
     },
@@ -1422,6 +1850,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_U,
         .edge_count = 24,
         .face_vertices = face_vertices_U,
+        .face_vertex_counts = face_vertex_counts_U,
         .face_count = 10,
         .name = "U"
     },
@@ -1431,6 +1860,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_V,
         .edge_count = 18,
         .face_vertices = face_vertices_V,
+        .face_vertex_counts = face_vertex_counts_V,
         .face_count = 8,
         .name = "V"
     },
@@ -1440,6 +1870,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_W,
         .edge_count = 30,
         .face_vertices = face_vertices_W,
+        .face_vertex_counts = face_vertex_counts_W,
         .face_count = 12,
         .name = "W"
     },
@@ -1449,6 +1880,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_X,
         .edge_count = 36,
         .face_vertices = face_vertices_X,
+        .face_vertex_counts = face_vertex_counts_X,
         .face_count = 14,
         .name = "X"
     },
@@ -1458,6 +1890,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_Y,
         .edge_count = 24,
         .face_vertices = face_vertices_Y,
+        .face_vertex_counts = face_vertex_counts_Y,
         .face_count = 10,
         .name = "Y"
     },
@@ -1467,6 +1900,7 @@ const pentacube_data_t pentacube_data[PENTACUBE_COUNT] = {
         .edges = edges_Z,
         .edge_count = 24,
         .face_vertices = face_vertices_Z,
+        .face_vertex_counts = face_vertex_counts_Z,
         .face_count = 10,
         .name = "Z"
     },

@@ -39,7 +39,7 @@ static const char *TAG = "example";
 #define EXAMPLE_LCD_CMD_BITS           8
 #define EXAMPLE_LCD_PARAM_BITS         8
 
-extern void example_lvgl_demo_ui(lv_disp_t *disp);
+extern void lvgl_ui(lv_disp_t *disp);
 
 void app_main(void)
 {
@@ -106,7 +106,7 @@ void app_main(void)
     ESP_LOGI(TAG, "Display LVGL Scroll Text");
     // Lock the mutex due to the LVGL APIs are not thread-safe
     if (lvgl_port_lock(0)) {
-        example_lvgl_demo_ui(disp);
+        lvgl_ui(disp);
         // Release the mutex
         lvgl_port_unlock();
     }

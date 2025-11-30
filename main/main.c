@@ -39,7 +39,7 @@ static const char *TAG = "example";
 #define EXAMPLE_LCD_CMD_BITS           8
 #define EXAMPLE_LCD_PARAM_BITS         8
 
-extern void lvgl_ui(lv_disp_t *disp);
+extern void oled(lv_disp_t *disp);
 
 void app_main(void)
 {
@@ -79,6 +79,7 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_lcd_panel_reset(panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_init(panel_handle));
     ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
+    esp_lcd_panel_invert_color(panel_handle, true);  // or false to toggle
 
     ESP_LOGI(TAG, "Initialize LVGL");
     const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
@@ -106,7 +107,7 @@ void app_main(void)
     ESP_LOGI(TAG, "Display LVGL Scroll Text");
     // Lock the mutex due to the LVGL APIs are not thread-safe
     if (lvgl_port_lock(0)) {
-        lvgl_ui(disp);
+        oled(disp);
         // Release the mutex
         lvgl_port_unlock();
     }

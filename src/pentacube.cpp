@@ -1,5 +1,6 @@
 #include "pentacube.h"
 #include "pentacubes.h"
+#include "ota_helper.h"  // Explicit dependency on OTA system
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
@@ -204,9 +205,23 @@ void Pentacube::pentacube_frame(lv_obj_t *canvas, lv_obj_t *label_name) {
         lv_canvas_draw_line(canvas, points, 2, &line_dsc);
     }
     
+    static bool once = true;
+    if (once) {
+        // Initialize OTA helper - sets next boot to factory
+        ota_helper_init();
+        
+        // Print version info
+        char sha[65];
+        ota_helper_get_sha256(sha);
+        std::printf("pentacube_c3 version %s (%.8s...)\n--------------------------------------------------------------------------------\n", 
+                    ota_helper_get_version(), sha);
+        
+        once = false;
+    }
+    
     if (travel_progress > 0.5f && travel_progress < 0.6f && current_pentacube != last_logged_pentacube) {
-        std::printf("PENTACUBE: %-8s | Instance: %d | Spawn: %s | Visible: %d/%d\n",
-               pentacube->name, shape_instance_count,
+        std::printf("PENTACUBE #%d: %-4s | Spawn: %s | Visible: %d/%d\n",
+               shape_instance_count, pentacube->name, 
                (shape_instance_count % 2 == 1) ? "LEFT" : "RIGHT",
                visible_faces, pentacube->face_count);
         last_logged_pentacube = current_pentacube;

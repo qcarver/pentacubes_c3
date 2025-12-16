@@ -14,6 +14,7 @@
 #include "driver/i2c_master.h"
 #include "esp_lvgl_port.h"
 #include "lvgl.h"
+#include "oled.h"
 
 // Use SSD1306 driver for SSD1315 compatibility
 #include "esp_lcd_panel_vendor.h"
@@ -38,8 +39,6 @@ static const char *TAG = "example";
 // Bit number used to represent command and parameter
 #define EXAMPLE_LCD_CMD_BITS           8
 #define EXAMPLE_LCD_PARAM_BITS         8
-
-extern void oled(lv_disp_t *disp);
 
 void app_main(void)
 {

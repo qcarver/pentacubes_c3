@@ -3,6 +3,4 @@ idf_component_register(SRCS
                         "../src/oled.cpp"
                         "../src/pentacubes.c"
                         "../src/pentacube.cpp"
-                       INCLUDE_DIRS 
-                          "../include"
-                       REQUIRES app_update esp_lcd lvgl ota_helper)
+                       REQUIRES app_update esp_lcd lvgl $<IF:$<BOOL:${ENABLE_OTA}>,ota_helper,>)

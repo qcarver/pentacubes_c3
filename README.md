@@ -1,6 +1,24 @@
 | Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
 | ----------------- | ----- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 
+# OTA
+
+This project will update over-the-air by default. You can change that.
+
+# Build WITH OTA support (default)
+cd /home/qcarver/Dev/ota/pentacubes_c3
+idf.py build
+
+# Build WITHOUT OTA support
+idf.py -DENABLE_OTA=OFF build
+
+# Running OTA server
+requires python3
+go to the `serve_me` directory
+if needs be `chmod a+x update_and_start.sh`
+`./update_and_start.sh`
+To let the server 'know' there is a new version: change PROJECT_VER in the root cmake.
+
 # Pentacubes C3 - 3D Wireframe Visualization on ESP32-C3
 
 A real-time 3D wireframe renderer for all 29 pentacubes, running on an ESP32-C3 microcontroller with a 128x40 OLED display.

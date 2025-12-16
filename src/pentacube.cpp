@@ -1,6 +1,10 @@
 #include "pentacube.h"
 #include "pentacubes.h"
-#include "ota_helper.h"  // Explicit dependency on OTA system
+
+#ifdef OTA
+#include "ota_helper.h"
+#endif
+
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
@@ -207,15 +211,16 @@ void Pentacube::pentacube_frame(lv_obj_t *canvas, lv_obj_t *label_name) {
     
     static bool once = true;
     if (once) {
+#ifdef OTA
         // Initialize OTA helper - sets next boot to factory
         ota_helper_init();
         
         // Print version info
         char sha[65];
         ota_helper_get_sha256(sha);
-        std::printf("pentacube_c3 version %s (%.8s...)\n--------------------------------------------------------------------------------\n", 
+        std::printf("pentacube_c3 version %s (%.8s...)\n", 
                     ota_helper_get_version(), sha);
-        
+#endif
         once = false;
     }
     

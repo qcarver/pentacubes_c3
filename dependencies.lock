@@ -1,4 +1,10 @@
 dependencies:
+  espressif/cjson:
+    component_hash: 9372811fb197926f522c467627cf4a8e72b681e0366e17879631da801103aef3
+    source:
+      service_url: https://api.components.espressif.com/
+      type: service
+    version: 1.7.19
   espressif/esp_lcd_sh1107:
     component_hash: 9cc00a4d066e3e1d120fd2006d30612766488379b820804092a9bfedb3c1f93c
     source:
@@ -22,6 +28,6 @@ dependencies:
       service_url: https://api.components.espressif.com/
       type: service
     version: 8.3.11
-manifest_hash: 61999adeb5fe1c7fa740ad9e2d199757b983c97ad8bb0540f921e3c42a399622
+manifest_hash: 0b15d3b604117fce07a2fb3e33adab73dca26d08b2d444af2b0e4c805bd76a34
 target: esp32c3
 version: 1.0.0

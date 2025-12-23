@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VER "1.0.18")
+# CRITICAL: Add ESP-IDF's Linux stubs BEFORE standard includes
+list(PREPEND CMAKE_C_FLAGS 
+    "-isystem${CMAKE_CURRENT_SOURCE_DIR}/../esp/v5.2.1/esp-idf/components/esp_netif/linux/stubs/include"
+)
 
-# Optional OTA support - define OTA to enable
-option(ENABLE_OTA "Enable OTA dispatcher integration" ON)
-
-if(ENABLE_OTA)
-    # Point to OTA components folder
-    set(EXTRA_COMPONENT_DIRS "/home/qcarver/Dev/ota/components")
-    add_compile_definitions(OTA)
-endif()
+set(EXTRA_COMPONENT_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/components)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(pentacubes_c3)
+project(pentacubes_c3 VERSION 1.0.1)
+
+add_compile_definitions(
+    YAOTAU_PROJECT_NAME="${CMAKE_PROJECT_NAME}"
+    YAOTAU_BUILD_VERSION="1.0.1"
+)

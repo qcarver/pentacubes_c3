@@ -15,6 +15,7 @@
 #include "esp_lvgl_port.h"
 #include "lvgl.h"
 #include "oled.h"
+#include "ota_helper.h"
 
 // Use SSD1306 driver for SSD1315 compatibility
 #include "esp_lcd_panel_vendor.h"
@@ -42,6 +43,9 @@ static const char *TAG = "example";
 
 void app_main(void)
 {
+    // Initialize OTA helper to check for updates
+    ota_helper_init();
+
     ESP_LOGI(TAG, "Initialize I2C bus");
     i2c_master_bus_handle_t i2c_bus = NULL;
     i2c_master_bus_config_t bus_config = {

@@ -84,7 +84,7 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel_handle, true));
     esp_lcd_panel_invert_color(panel_handle, true);  // or false to toggle
 
-    ESP_LOGI(TAG, "Initialize LVGL");
+    ESP_LOGI(TAG, "Initialize LVGL.");
     const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
     lvgl_port_init(&lvgl_cfg);
 

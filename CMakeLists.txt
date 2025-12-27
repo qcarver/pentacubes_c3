@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Define version once - single source of truth
-set(APP_VERSION "1.0.1")
+set(APP_VERSION "1.0.2")
 
 # CRITICAL: Add ESP-IDF's Linux stubs BEFORE standard includes
 list(PREPEND CMAKE_C_FLAGS 

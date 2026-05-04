@@ -17,3 +17,6 @@ Thumbs.db
 __pycache__/
 *.pyc
 *.egg-info/
+
+# Generated OTA serving directories
+serve_*/

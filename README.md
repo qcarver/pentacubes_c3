@@ -14,10 +14,14 @@ idf.py -DENABLE_OTA=OFF build
 
 # Running OTA server
 requires python3
-go to the `serve_me` directory
-if needs be `chmod a+x update_and_start.sh`
-`./update_and_start.sh`
-To let the server 'know' there is a new version: change PROJECT_VER in the root cmake.
+run `idf.py build`
+go to the generated `serve_pentacubes_c3` directory
+run `./start.sh`
+
+To refresh OTA metadata without restarting the server:
+`./serve_pentacubes_c3/update.sh`
+
+After each successful build, `version.json` and the served `.bin` are updated automatically.
 
 # Pentacubes C3 - 3D Wireframe Visualization on ESP32-C3
 
@@ -216,13 +220,14 @@ This is a hardware quirk documented in various ESP32-C3 communities - the bootlo
 
 **Symptom:** Device repeatedly detects an update, downloads OTA image, reboots, then repeats.
 
-**Cause:** `APP_VERSION` was changed before running `serve_me/update_and_start.sh`, but the firmware binary was not rebuilt first. The server advertises the new version in `version.json`, while the served `.bin` still contains the old version string.
+**Cause:** `APP_VERSION` was changed before rebuilding. The OTA metadata advertises the new version, while the served `.bin` still contains the old version string.
 
 **Fix:** Always update in this order:
 
 1. Change `APP_VERSION` in `CMakeLists.txt`
 2. Run `idf.py build` (this embeds the new version into the binary)
-3. Then run `serve_me/update_and_start.sh` (this writes `version.json` and serves the new `.bin`)
+3. Run `idf.py build` so the OTA metadata is refreshed automatically
+4. If the server is already running, use `./serve_pentacubes_c3/update.sh` only when you need to republish the current build artifacts manually
 
 ## Key Statistics
 

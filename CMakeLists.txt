@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Define version once - single source of truth
-set(APP_VERSION "1.1.2")
+set(APP_VERSION "1.1.3")
 set(APP_NAME "pentacubes_c3")
 
 # CRITICAL: Add ESP-IDF's Linux stubs BEFORE standard includes
@@ -12,6 +12,7 @@ list(PREPEND CMAKE_C_FLAGS
 set(EXTRA_COMPONENT_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/components
     ${CMAKE_CURRENT_SOURCE_DIR}/external/mqtt_log_bridge_component/components
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/yaotau/components
 )
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
@@ -33,7 +34,7 @@ message(STATUS "Cmake Project Version: ${CMAKE_PROJECT_VERSION}")
 message(STATUS "Project Version: ${PROJECT_VERSION}")
 
 set(YAOTAU_OTA_UPDATE_SCRIPT
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/yaotau/tools/update_ota_payload.sh
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/yaotau/components/yaotau/tools/update_ota_payload.sh
 )
 
 add_custom_target(update_ota_metadata ALL

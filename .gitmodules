@@ -1,3 +1,7 @@
 [submodule "external/mqtt_log_bridge_component"]
 	path = external/mqtt_log_bridge_component
 	url = https://github.com/qcarver/mqtt_log_bridge_component.git
+[submodule "external/yaotau"]
+	path = external/yaotau
+	url = https://github.com/qcarver/yaotau.git
+	branch = main

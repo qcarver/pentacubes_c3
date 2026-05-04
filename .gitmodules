@@ -1,0 +1,3 @@
+[submodule "external/mqtt_log_bridge_component"]
+	path = external/mqtt_log_bridge_component
+	url = https://github.com/qcarver/mqtt_log_bridge_component.git

@@ -10,7 +10,7 @@ list(PREPEND CMAKE_C_FLAGS
 
 set(EXTRA_COMPONENT_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/components
-    /home/qcarver/Dev/mqtt_log_bridge_component/components
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/mqtt_log_bridge_component/components
 )
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)

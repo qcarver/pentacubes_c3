@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Define version once - single source of truth
-set(APP_VERSION "1.0.2")
+set(APP_VERSION "1.1.1")
 
 # CRITICAL: Add ESP-IDF's Linux stubs BEFORE standard includes
 list(PREPEND CMAKE_C_FLAGS 
     "-isystem${CMAKE_CURRENT_SOURCE_DIR}/../esp/v5.2.1/esp-idf/components/esp_netif/linux/stubs/include"
 )
 
-set(EXTRA_COMPONENT_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/components)
+set(EXTRA_COMPONENT_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/components
+    /home/qcarver/Dev/mqtt_log_bridge_component/components
+)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
@@ -27,7 +30,3 @@ set(CMAKE_PROJECT_VERSION "${APP_VERSION}")
 message(STATUS "Cmake Project Name: ${CMAKE_PROJECT_NAME}")
 message(STATUS "Cmake Project Version: ${CMAKE_PROJECT_VERSION}")
 message(STATUS "Project Version: ${PROJECT_VERSION}")
-
-# Pass to components via build properties (CMake-time, not compile-time)
-idf_build_set_property(APP_NAME "${CMAKE_PROJECT_NAME}")
-idf_build_set_property(APP_VERSION "${APP_VERSION}")

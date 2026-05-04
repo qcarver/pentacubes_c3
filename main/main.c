@@ -16,6 +16,7 @@
 #include "lvgl.h"
 #include "oled.h"
 #include "ota_helper.h"
+#include "mqtt_log_bridge.h"
 
 // Use SSD1306 driver for SSD1315 compatibility
 #include "esp_lcd_panel_vendor.h"
@@ -25,17 +26,17 @@ static const char *TAG = "example";
 #define I2C_BUS_PORT  0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////// Updated configuration for 72x40 SSD1315 OLED ///////////////////////////////////////////////////
+//////////////////// Updated configuration for 100x40 SSD1315 OLED //////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EXAMPLE_LCD_PIXEL_CLOCK_HZ    (400 * 1000)
-#define EXAMPLE_PIN_NUM_SDA            9  // Changed to GPIO9
-#define EXAMPLE_PIN_NUM_SCL            8  // Changed to GPIO8
+#define EXAMPLE_PIN_NUM_SDA            9
+#define EXAMPLE_PIN_NUM_SCL            8
 #define EXAMPLE_PIN_NUM_RST           -1
 #define EXAMPLE_I2C_HW_ADDR           0x3C
 
-// The pixel number in horizontal and vertical for 72x40 display
-#define EXAMPLE_LCD_H_RES              100   // Changed to 96
-#define EXAMPLE_LCD_V_RES              40   // Changed to 40
+// The pixel number in horizontal and vertical for 100x40 display
+#define EXAMPLE_LCD_H_RES              100
+#define EXAMPLE_LCD_V_RES              40
 
 // Bit number used to represent command and parameter
 #define EXAMPLE_LCD_CMD_BITS           8
@@ -45,6 +46,9 @@ void app_main(void)
 {
     // Initialize OTA helper to check for updates
     ota_helper_init();
+
+    // OTA helper initializes network/event loop; start MQTT bridge afterwards.
+    ESP_ERROR_CHECK(mqtt_log_bridge_start());
 
     ESP_LOGI(TAG, "Initialize I2C bus");
     i2c_master_bus_handle_t i2c_bus = NULL;

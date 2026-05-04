@@ -3,6 +3,7 @@ set(COMPONENTS_REQUIRED
     esp_lcd 
     lvgl
     yaotau
+    mqtt_log_bridge
 )
 
 # Add OTA components only if enabled

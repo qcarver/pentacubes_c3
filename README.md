@@ -212,6 +212,18 @@ This is a hardware quirk documented in various ESP32-C3 communities - the bootlo
 - Check winding correction report in Python output
 - Verify face_vertex_counts array matches actual face sizes
 
+### OTA Update Spins Forever
+
+**Symptom:** Device repeatedly detects an update, downloads OTA image, reboots, then repeats.
+
+**Cause:** `APP_VERSION` was changed before running `serve_me/update_and_start.sh`, but the firmware binary was not rebuilt first. The server advertises the new version in `version.json`, while the served `.bin` still contains the old version string.
+
+**Fix:** Always update in this order:
+
+1. Change `APP_VERSION` in `CMakeLists.txt`
+2. Run `idf.py build` (this embeds the new version into the binary)
+3. Then run `serve_me/update_and_start.sh` (this writes `version.json` and serves the new `.bin`)
+
 ## Key Statistics
 
 | Metric | Value |

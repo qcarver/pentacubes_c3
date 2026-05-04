@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include <cstdio>
 
+#include "esp_log.h"
+
 #define BASE_SIZE 8
 #define CENTER_X 50
 #define CENTER_Y 20
@@ -225,10 +227,10 @@ void Pentacube::pentacube_frame(lv_obj_t *canvas, lv_obj_t *label_name) {
     }
     
     if (travel_progress > 0.5f && travel_progress < 0.6f && current_pentacube != last_logged_pentacube) {
-        std::printf("PENTACUBE #%d: %-4s | Spawn: %s | Visible: %d/%d\n",
-               shape_instance_count, pentacube->name, 
-               (shape_instance_count % 2 == 1) ? "LEFT" : "RIGHT",
-               visible_faces, pentacube->face_count);
+        ESP_LOGI("pentacube", "PENTACUBE #%d: %-4s | Spawn: %s | Visible: %d/%d",
+                 shape_instance_count, pentacube->name,
+                 (shape_instance_count % 2 == 1) ? "LEFT" : "RIGHT",
+                 visible_faces, pentacube->face_count);
         last_logged_pentacube = current_pentacube;
     }
 }
